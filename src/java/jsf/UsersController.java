@@ -4,7 +4,6 @@ import jpa.entities.Users;
 import jsf.util.JsfUtil;
 import jsf.util.PaginationHelper;
 import jpa.session.UsersFacade;
-
 import java.io.Serializable;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
@@ -229,33 +228,7 @@ public class UsersController implements Serializable {
             } else {
                 throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: "+Users.class.getName());
             }
-        }
-  
-    private String name;
-    private String password;
-
-    /**
-     * Creates a new instance of LoginBean
-     */
-  
-
-    public String getName() {
-        return name;
-    }
-    
-    public void setName(String name){
-    this.name=name;
-    }
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
+        }  
   
     }
-
-    
-
 }

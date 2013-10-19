@@ -12,7 +12,7 @@ import org.xml.sax.helpers.DefaultHandler;
  *
  * @author Imm
  */
-class TimeZoneContentHandler extends DefaultHandler {
+public class TimeZoneContentHandler extends DefaultHandler {
 
         private String timeZoneOffset;
         private String timeZoneName;
