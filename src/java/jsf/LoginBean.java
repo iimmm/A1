@@ -8,8 +8,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Calendar;
+import java.util.Stack;
 import javax.ejb.EJB;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Named;
@@ -21,6 +24,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.xml.sax.ContentHandler;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
@@ -98,58 +102,31 @@ public class LoginBean {
         }
 
         return "login";
-
-
     }
 
     public String getTimezoneInfo() {
-
-        /* HttpGet httpGet = new HttpGet("http://www.earthtools.org/timezone/" + latitude + "," + longitude);
-         CloseableHttpClient client = HttpClientBuilder.create().build();
-         HttpResponse response;
-         StringBuilder stringBuilder = new StringBuilder();
-
-         try {
-         response = client.execute(httpGet);
-         HttpEntity entity = response.getEntity();
-         InputStream stream = entity.getContent();
-         int b;
-         while ((b = stream.read()) != -1) {
-         stringBuilder.append((char) b);
-         }
-         } catch (IOException | IllegalStateException e) {
-         return "";
-         }
-
-         return stringBuilder.toString();
-         */
+      
+        TimeZoneContentHandler handler = new TimeZoneContentHandler();
         try {
+            String urlString = "https://maps.googleapis.com/maps/api/timezone/xml?location=" + latitude + "," + longitude + "&timestamp=" + Calendar.getInstance().getTimeInMillis() / 1000 + "&sensor=false";
+            URL obj = new URL(urlString);
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            StringBuilder response;
+            try (BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
+                String inputLine;
+                response = new StringBuilder();
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+            }
 
-         String urlString = "http://www.earthtools.org/timezone/" + latitude + "/" + longitude;
-        String url = "http://www.google.com/search?q=mkyong";
- 
-		URL obj = new URL(url);
-		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
- 
-		// optional default is GET
-		con.setRequestMethod("GET"); 
-		
-		int responseCode = con.getResponseCode();
-		
-		BufferedReader in = new BufferedReader(
-		        new InputStreamReader(con.getInputStream()));
-		String inputLine;
-		StringBuffer response = new StringBuffer();
- 
-		while ((inputLine = in.readLine()) != null) {
-			response.append(inputLine);
-		}
-		in.close();
-                
             XMLReader reader = XMLReaderFactory.createXMLReader();
-            ContentHandler handler = new TimeZoneContentHandler();
+
             reader.setContentHandler(handler);
-            reader.parse(response.toString());
+            InputSource source = new InputSource(new StringReader(response.toString()));
+            reader.parse(source);
+            return handler.getTimeZoneName()+" offset="+ handler.getTimeZoneOffset();
+
         } catch (SAXException ex) {
             System.err.println("SAX Exception");
             ex.printStackTrace();
@@ -157,22 +134,58 @@ public class LoginBean {
             System.err.println("IO Exception");
             ex.printStackTrace();
         }
-        
-        return timeZone;
+        return handler.getTimeZoneName();
     }
 
     public void logout() {
-        
+
         name = password = null;
     }
 
     class TimeZoneContentHandler extends DefaultHandler {
 
-        public void startElement(String ns, String ln, String qn, Attributes a) {
-            if (qn.equalsIgnoreCase("timezone")) {
-                timeZone = a.getValue("offset");
+        private String timeZoneOffset;
+        private String timeZoneName;
+        private Stack elementStack = new Stack();
 
+        public String getTimeZoneName() {
+            return timeZoneName;
+        }
+
+        public String getTimeZoneOffset() {
+            return timeZoneOffset;
+        }
+
+        @Override
+        public void characters(char[] ch, int start, int length) throws SAXException {
+            String value = new String(ch, start, length).trim();
+            if (value.length() == 0) {
+                return; // ignore white space
             }
+
+            //handle the value based on to which element it belongs
+            if ("dst_offset".equals(currentElement())) {
+                timeZoneOffset = value;
+            } else if ("time_zone_name".equals(currentElement())) {
+                timeZoneName = value;
+            }
+        }
+
+        private String currentElement() {
+            return (String) this.elementStack.peek();
+        }
+
+        @Override
+        public void startElement(String uri, String localName, String qName, org.xml.sax.Attributes attributes) throws SAXException {
+            this.elementStack.push(qName);
+        }
+
+        @Override
+        public void endElement(String uri, String localName, String qName) throws SAXException {
+            //Remove last added  element
+            this.elementStack.pop();
+
+
         }
     }
 }
