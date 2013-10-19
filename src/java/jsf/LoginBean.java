@@ -125,7 +125,7 @@ public class LoginBean {
          */
         try {
 
-         String urlString = "http://www.earthtools.org/timezone/" + latitude + "," + longitude;
+         String urlString = "http://www.earthtools.org/timezone/" + latitude + "/" + longitude;
         String url = "http://www.google.com/search?q=mkyong";
  
 		URL obj = new URL(url);
