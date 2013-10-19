@@ -12,6 +12,10 @@
             <base-name>/resources/Bundle</base-name>
             <var>bundle</var>
         </resource-bundle>
+        <resource-bundle>
+            <base-name>/resources/Bundle</base-name>
+            <var>bundle</var>
+        </resource-bundle>
     </application>
     <managed-bean>
         <managed-bean-name>loginBean</managed-bean-name>
@@ -23,7 +27,7 @@
 	<navigation-case>
 		<from-action>#{loginBean.login}</from-action>
 		<from-outcome>ownpage</from-outcome>
-		<to-view-id>users/ownpage.xhtml</to-view-id>
+		<to-view-id>ownpage.xhtml</to-view-id>
 	</navigation-case>	
     </navigation-rule>	
 </faces-config>

@@ -10,40 +10,44 @@
             <h:outputText value="#{bundle.ViewUsersTitle}"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            <h:panelGroup id="messagePanel" layout="block">
-                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
-            </h:panelGroup>
-            <h:form>
-                <h:panelGrid columns="2">
-                    <h:outputText value="#{bundle.ViewUsersLabel_userId}"/>
-                    <h:outputText value="#{usersController.selected.userId}" title="#{bundle.ViewUsersTitle_userId}"/>
-                    <h:outputText value="#{bundle.ViewUsersLabel_name}"/>
-                    <h:outputText value="#{usersController.selected.name}" title="#{bundle.ViewUsersTitle_name}"/>
-                    <h:outputText value="#{bundle.ViewUsersLabel_latitude}"/>
-                    <h:outputText value="#{usersController.selected.latitude}" title="#{bundle.ViewUsersTitle_latitude}"/>
-                    <h:outputText value="#{bundle.ViewUsersLabel_longitude}"/>
-                    <h:outputText value="#{usersController.selected.longitude}" title="#{bundle.ViewUsersTitle_longitude}"/>
-                    <h:outputText value="#{bundle.ViewUsersLabel_isAdmin}"/>
-                    <h:outputText value="#{usersController.selected.isAdmin}" title="#{bundle.ViewUsersTitle_isAdmin}"/>
-                    <h:outputText value="#{bundle.ViewUsersLabel_homeAddress}"/>
-                    <h:outputText value="#{usersController.selected.homeAddress}" title="#{bundle.ViewUsersTitle_homeAddress}"/>
-                    <h:outputText value="#{bundle.ViewUsersLabel_password}"/>
-                    <h:outputText value="#{usersController.selected.password}" title="#{bundle.ViewUsersTitle_password}"/>                   
-                </h:panelGrid>
-                <br />
-                <h:commandLink action="#{usersController.destroyAndView}" value="#{bundle.ViewUsersDestroyLink}"/>
-                <br />
-                <br />
-                <h:link outcome="Edit" value="#{bundle.ViewUsersEditLink}"/>
-                <br />
-                <h:commandLink action="#{usersController.prepareCreate}" value="#{bundle.ViewUsersCreateLink}" />
-                <br />
-                <h:commandLink action="#{usersController.prepareList}" value="#{bundle.ViewUsersShowAllLink}"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.ViewUsersIndexLink}"/>
+            <h:panelGroup class="content" layout="block">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:form>
+                    <h:panelGrid columns="2">                   
+                        <h:outputText value="#{bundle.ViewUsersLabel_name}"/>
+                        <h:outputText value="#{usersController.selected.name}" title="#{bundle.ViewUsersTitle_name}"/>
+                        <h:outputText value="#{bundle.ViewUsersLabel_latitude}"/>
+                        <h:outputText value="#{usersController.selected.latitude}" title="#{bundle.ViewUsersTitle_latitude}"/>
+                        <h:outputText value="#{bundle.ViewUsersLabel_longitude}"/>
+                        <h:outputText value="#{usersController.selected.longitude}" title="#{bundle.ViewUsersTitle_longitude}"/>
+                        <h:outputText value="#{bundle.ViewUsersLabel_isAdmin}"/>
+                        <h:selectBooleanCheckbox value="#{userController.Selected.isAdmin}" title="#{bundle.ViewUsersTitle_isAdmin}" readonly="readonly" disabled="true" />
+                        <h:outputText value="#{bundle.ViewUsersLabel_homeAddress}"/>
+                        <h:outputText value="#{usersController.selected.homeAddress}" title="#{bundle.ViewUsersTitle_homeAddress}"/>
+                        <h:outputText value="#{bundle.ViewUsersLabel_password}"/>
+                        <h:outputText value="#{usersController.selected.password}" title="#{bundle.ViewUsersTitle_password}"/>
+                        <h:outputText value="#{bundle.ViewUsersLabel_birthDate}"/>
+                        <h:outputText value="#{usersController.selected.birthDate}" title="#{bundle.ViewUsersTitle_birthDate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                    </h:panelGrid>
+                    <br />
+                    <h:commandLink action="#{usersController.destroyAndView}" value="#{bundle.ViewUsersDestroyLink}"/>
+                    <br />
+                    <br />
+                    <h:link outcome="Edit" value="#{bundle.ViewUsersEditLink}"/>
+                    <br />
+                    <h:commandLink action="#{usersController.prepareCreate}" value="#{bundle.ViewUsersCreateLink}" />
+                    <br />
+                    <h:commandLink action="#{usersController.prepareList}" value="#{bundle.ViewUsersShowAllLink}"/>
+                    <br />
+                    <br />
+                    <h:link outcome="index" value="#{bundle.ViewUsersIndexLink}"/>
 
-            </h:form>
+                </h:form>
+            </h:panelGroup>
         </ui:define>
     </ui:composition>
 

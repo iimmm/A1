@@ -4,8 +4,10 @@
  */
 package jsf;
 
+import java.util.Date;
 import javax.ejb.EJB;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import jpa.entities.Users;
 import tools.Parser;
@@ -18,6 +20,8 @@ import tools.Parser;
 @Named
 public class LoginBean {
 
+    public static final String AUTH_KEY = "app.user.name";
+    public static final String IS_ADMIN = "app.user.isadmin";
     @EJB
     private jpa.session.UsersFacade ejbFacade;
     private String name;
@@ -26,6 +30,15 @@ public class LoginBean {
     private boolean isAdmin;
     private float latitude;
     private float longitude;
+    private Date birthdate;
+
+    public Date getBirthdate() {
+        return birthdate;
+    }
+
+    public void setBirthdate(Date birthdate) {
+        this.birthdate = birthdate;
+    }
 
     public float getLatitude() {
         return latitude;
@@ -80,65 +93,46 @@ public class LoginBean {
     public void setHomeAddress(String HomeAddress) {
         this.HomeAddress = HomeAddress;
     }
-
-    public String login() {
+       public String login() {
 
         try {
             Users user = ejbFacade.findUserByName(name);
-
+            
             if (user != null && password.equals(user.getPassword())) {
-                latitude = user.getLatitude();
-                longitude = user.getLongitude();
-                HomeAddress = user.getHomeAddress();
-                isAdmin=user.getIsAdmin();
-                //   FacesContext.getCurrentInstance().getExternalContext().dispatch("/users/ownpage.xhtml");
-                return "ownpage";
+
+                if (!user.getIsAdmin()) {
+                    latitude = user.getLatitude();
+                    longitude = user.getLongitude();
+                    HomeAddress = user.getHomeAddress();
+                    isAdmin = user.getIsAdmin();
+                    birthdate = user.getBirthDate();
+                    FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(AUTH_KEY, name);                
+                    return "ownpage";
+                }
+                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(IS_ADMIN, isAdmin);
+                return "/users/index";
             }
 
 
         } catch (Exception e) {
+            logout();
             return "login";
         }
-
+        logout();
         return "login";
     }
 
     public String getTimezoneInfo() {
 
-        /* TimeZoneContentHandler handler = new TimeZoneContentHandler();
-         try {
-         String urlString = "https://maps.googleapis.com/maps/api/timezone/xml?location=" + latitude + "," + longitude + "&timestamp=" + Calendar.getInstance().getTimeInMillis() / 1000 + "&sensor=false";
-         URL obj = new URL(urlString);
-         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-         StringBuilder response;
-         try (BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
-         String inputLine;
-         response = new StringBuilder();
-         while ((inputLine = in.readLine()) != null) {
-         response.append(inputLine);
-         }
-         }
-
-         XMLReader reader = XMLReaderFactory.createXMLReader();
-
-         reader.setContentHandler(handler);
-         InputSource source = new InputSource(new StringReader(response.toString()));
-         reader.parse(source);
-         return handler.getTimeZoneName()+" offset="+ handler.getTimeZoneOffset();
-
-         } catch (SAXException ex) {
-         System.err.println("SAX Exception");
-         ex.printStackTrace();
-         } catch (IOException ex) {
-         System.err.println("IO Exception");
-         ex.printStackTrace();
-         }
-         return handler.getTimeZoneName();*/
         return Parser.getTimeZoneInfo(latitude, longitude);
     }
 
     public void logout() {
 
         name = password = null;
+         FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+        .remove(AUTH_KEY);
+           FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+        .remove(IS_ADMIN);
     }
 }

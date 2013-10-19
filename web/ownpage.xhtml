@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="Welcome"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form>
+                <h:panelGroup class="content" layout="block">
+                    <h:outputText value="Welcome, #{loginBean.getName()}!"/>
+
+                    <h:panelGrid columns="2">   
+                        <h:outputText value="Timezone" title="Timezone"/>
+                        <h:outputText value="#{loginBean.getTimezoneInfo()}"/>
+                        <h:outputText value="#{bundle.ViewUsersLabel_name}"/>
+                        <h:outputText value="#{loginBean.name}" title="#{bundle.ViewUsersTitle_name}"/>
+                        <h:outputText value="#{bundle.ViewUsersLabel_latitude}"/>
+                        <h:outputText value="#{loginBean.latitude}" title="#{bundle.ViewUsersTitle_latitude}"/>
+                        <h:outputText value="#{bundle.ViewUsersLabel_longitude}"/>
+                        <h:outputText value="#{loginBean.longitude}" title="#{bundle.ViewUsersTitle_longitude}"/>
+                        <h:outputText value="#{bundle.ViewUsersLabel_isAdmin}"/>                    
+                        <h:selectBooleanCheckbox value="#{loginBean.isAdmin}" title="#{bundle.ViewUsersTitle_isAdmin}" readonly="readonly" disabled="true" />
+                        <h:outputText value="#{bundle.ViewUsersLabel_homeAddress}"/>
+                        <h:outputText value="#{loginBean.homeAddress}" title="#{bundle.ViewUsersTitle_homeAddress}"/>        
+                        <h:outputText value="#{bundle.ViewUsersLabel_birthDate}"/>
+                        <h:outputText value="#{loginBean.birthdate}" title="#{bundle.ViewUsersTitle_birthDate}"/>
+                    </h:panelGrid>     
+                </h:panelGroup>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

@@ -5,6 +5,7 @@
 package jpa.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,6 +15,8 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -33,6 +36,11 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Users.findByHomeAddress", query = "SELECT u FROM Users u WHERE u.homeAddress = :homeAddress"),
     @NamedQuery(name = "Users.findByPassword", query = "SELECT u FROM Users u WHERE u.password = :password")})
 public class Users implements Serializable {
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "BirthDate")
+    @Temporal(TemporalType.DATE)
+    private Date birthDate;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -74,7 +82,7 @@ public class Users implements Serializable {
         this.userId = userId;
     }
 
-    public Users(Integer userId, String name, float latitude, float longitude, boolean isAdmin, String homeAddress, String password) {
+    public Users(Integer userId, String name, float latitude, float longitude, boolean isAdmin, String homeAddress, String password,Date birthdate) {
         this.userId = userId;
         this.name = name;
         this.latitude = latitude;
@@ -82,6 +90,7 @@ public class Users implements Serializable {
         this.isAdmin = isAdmin;
         this.homeAddress = homeAddress;
         this.password = password;
+        this.birthDate=birthdate;
     }
 
     public Integer getUserId() {
@@ -163,6 +172,14 @@ public class Users implements Serializable {
     @Override
     public String toString() {
         return "jpa.entities.Users[ userId=" + userId + " ]";
+    }
+
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
     }
     
 }

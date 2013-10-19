@@ -32,12 +32,14 @@ public class TimeZoneContentHandler extends DefaultHandler {
             if (value.length() == 0) {
                 return; // ignore white space
             }
-
             //handle the value based on to which element it belongs
-            if ("dst_offset".equals(currentElement())) {
-                timeZoneOffset = value;
-            } else if ("time_zone_name".equals(currentElement())) {
-                timeZoneName = value;
+            switch (currentElement()) {
+                case "dst_offset":
+                    timeZoneOffset = value;
+                    break;
+                case "time_zone_name":
+                    timeZoneName = value;
+                    break;
             }
         }
 
@@ -54,7 +56,5 @@ public class TimeZoneContentHandler extends DefaultHandler {
         public void endElement(String uri, String localName, String qName) throws SAXException {
             //Remove last added  element
             this.elementStack.pop();
-
-
         }
     }

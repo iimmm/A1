@@ -10,33 +10,39 @@
             <h:outputText value="#{bundle.CreateUsersTitle}"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            <h:panelGroup id="messagePanel" layout="block">
-                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            <h:panelGroup class="content" layout="block">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:form>
+                    <h:panelGrid columns="2">                        
+                        <h:outputLabel value="#{bundle.CreateUsersLabel_name}" for="name" />
+                        <h:inputText id="name" value="#{usersController.selected.name}" title="#{bundle.CreateUsersTitle_name}" required="true" requiredMessage="#{bundle.CreateUsersRequiredMessage_name}"/>
+                        <h:outputLabel value="#{bundle.CreateUsersLabel_latitude}" for="latitude" />
+                        <h:inputText id="latitude" value="#{usersController.selected.latitude}" title="#{bundle.CreateUsersTitle_latitude}" required="true" requiredMessage="#{bundle.CreateUsersRequiredMessage_latitude}"/>
+                        <h:outputLabel value="#{bundle.CreateUsersLabel_longitude}" for="longitude" />
+                        <h:inputText id="longitude" value="#{usersController.selected.longitude}" title="#{bundle.CreateUsersTitle_longitude}" required="true" requiredMessage="#{bundle.CreateUsersRequiredMessage_longitude}"/>
+                        <h:outputLabel value="#{bundle.CreateUsersLabel_isAdmin}" for="isAdmin" />
+                        <h:inputText id="isAdmin" value="#{usersController.selected.isAdmin}" title="#{bundle.EditUsersTitle_isAdmin}" required="true" requiredMessage="#{bundle.EditUsersRequiredMessage_isAdmin}"/>
+                        <h:outputLabel value="#{bundle.CreateUsersLabel_homeAddress}" for="homeAddress" />
+                        <h:inputText id="homeAddress" value="#{usersController.selected.homeAddress}" title="#{bundle.CreateUsersTitle_homeAddress}" required="true" requiredMessage="#{bundle.CreateUsersRequiredMessage_homeAddress}"/>
+                        <h:outputLabel value="#{bundle.CreateUsersLabel_password}" for="password" />
+                        <h:inputText id="password" value="#{usersController.selected.password}" title="#{bundle.CreateUsersTitle_password}" required="true" requiredMessage="#{bundle.CreateUsersRequiredMessage_password}"/>
+                        <h:outputLabel value="#{bundle.CreateUsersLabel_birthDate}" for="birthDate" />
+                        <h:inputText id="birthDate" value="#{usersController.selected.birthDate}" title="#{bundle.CreateUsersTitle_birthDate}" required="true" requiredMessage="#{bundle.CreateUsersRequiredMessage_birthDate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:inputText>
+                    </h:panelGrid>
+                    <br />
+                    <h:commandLink action="#{usersController.create}" value="#{bundle.CreateUsersSaveLink}" />
+                    <br />
+                    <br />
+                    <h:commandLink action="#{usersController.prepareList}" value="#{bundle.CreateUsersShowAllLink}" immediate="true"/>
+                    <br />
+                    <br />
+                    <h:link outcome="index" value="#{bundle.CreateUsersIndexLink}"/>
+                </h:form>
             </h:panelGroup>
-            <h:form>
-                <h:panelGrid columns="2">                  
-                    <h:outputLabel value="#{bundle.CreateUsersLabel_name}" for="name" />
-                    <h:inputText id="name" value="#{usersController.selected.name}" title="#{bundle.CreateUsersTitle_name}" required="true" requiredMessage="#{bundle.CreateUsersRequiredMessage_name}"/>
-                    <h:outputLabel value="#{bundle.CreateUsersLabel_latitude}" for="latitude" />
-                    <h:inputText id="latitude" value="#{usersController.selected.latitude}" title="#{bundle.CreateUsersTitle_latitude}" required="true" requiredMessage="#{bundle.CreateUsersRequiredMessage_latitude}"/>
-                    <h:outputLabel value="#{bundle.CreateUsersLabel_longitude}" for="longitude" />
-                    <h:inputText id="longitude" value="#{usersController.selected.longitude}" title="#{bundle.CreateUsersTitle_longitude}" required="true" requiredMessage="#{bundle.CreateUsersRequiredMessage_longitude}"/>
-                    <h:outputLabel value="#{bundle.CreateUsersLabel_isAdmin}" for="isAdmin" />
-                    <h:inputText id="isAdmin" value="#{usersController.selected.isAdmin}" title="#{bundle.CreateUsersTitle_isAdmin}" required="true" requiredMessage="#{bundle.CreateUsersRequiredMessage_isAdmin}"/>
-                    <h:outputLabel value="#{bundle.CreateUsersLabel_homeAddress}" for="homeAddress" />
-                    <h:inputText id="homeAddress" value="#{usersController.selected.homeAddress}" title="#{bundle.CreateUsersTitle_homeAddress}" required="true" requiredMessage="#{bundle.CreateUsersRequiredMessage_homeAddress}"/>
-                    <h:outputLabel value="#{bundle.CreateUsersLabel_password}" for="password" />
-                    <h:inputText id="password" value="#{usersController.selected.password}" title="#{bundle.CreateUsersTitle_password}" required="true" requiredMessage="#{bundle.CreateUsersRequiredMessage_password}"/>
-                </h:panelGrid>
-                <br />
-                <h:commandLink action="#{usersController.create}" value="#{bundle.CreateUsersSaveLink}" />
-                <br />
-                <br />
-                <h:commandLink action="#{usersController.prepareList}" value="#{bundle.CreateUsersShowAllLink}" immediate="true"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.CreateUsersIndexLink}"/>
-            </h:form>
         </ui:define>
     </ui:composition>
 
