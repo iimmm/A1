@@ -8,10 +8,10 @@
             <h:outputText value="Welcome"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            <h:form>
+            <h:form><h:commandButton value="logout" action="#{loginBean.logout}"></h:commandButton></h:form>
+            <h:form>              
                 <h:panelGroup class="content" layout="block">
                     <h:outputText value="Welcome, #{loginBean.getName()}!"/>
-
                     <h:panelGrid columns="2">   
                         <h:outputText value="Timezone" title="Timezone"/>
                         <h:outputText value="#{loginBean.getTimezoneInfo()}"/>

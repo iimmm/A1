@@ -93,11 +93,12 @@ public class LoginBean {
     public void setHomeAddress(String HomeAddress) {
         this.HomeAddress = HomeAddress;
     }
-       public String login() {
+
+    public String login() {
 
         try {
             Users user = ejbFacade.findUserByName(name);
-            
+
             if (user != null && password.equals(user.getPassword())) {
 
                 if (!user.getIsAdmin()) {
@@ -106,11 +107,14 @@ public class LoginBean {
                     HomeAddress = user.getHomeAddress();
                     isAdmin = user.getIsAdmin();
                     birthdate = user.getBirthDate();
-                    FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(AUTH_KEY, name);                
+
+                    FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+                            .remove(IS_ADMIN);
                     return "ownpage";
                 }
+                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(AUTH_KEY, name);
                 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(IS_ADMIN, isAdmin);
-                return "/users/index";
+                return "/users/List";
             }
 
 
@@ -127,12 +131,12 @@ public class LoginBean {
         return Parser.getTimeZoneInfo(latitude, longitude);
     }
 
-    public void logout() {
-
+    public String logout() {
         name = password = null;
-         FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
-        .remove(AUTH_KEY);
-           FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
-        .remove(IS_ADMIN);
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+                .remove(AUTH_KEY);
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+                .remove(IS_ADMIN);
+        return "login";
     }
 }

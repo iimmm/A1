@@ -30,7 +30,7 @@ public class AuthenticationFilter implements Filter {
       HttpSession session = ((HttpServletRequest) req).getSession();
     if (session.getAttribute(LoginBean.AUTH_KEY) == null || session.getAttribute(LoginBean.IS_ADMIN) == null ) 
     {      
-      ((HttpServletResponse) resp).sendRedirect("../../login");
+      ((HttpServletResponse) resp).sendRedirect("../login.xhtml");
       
     } 
     else 

@@ -10,6 +10,7 @@
             <h:outputText value="#{bundle.ListUsersTitle}"></h:outputText>
         </ui:define>
         <ui:define name="body">
+            <h:form><h:commandButton value="logout" action="#{loginBean.logout}"></h:commandButton></h:form>
             <h:panelGroup class="content" layout="block">
                 <h:form styleClass="jsfcrud_list_form">
                     <h:panelGroup id="messagePanel" layout="block">
