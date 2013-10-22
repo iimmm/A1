@@ -30,13 +30,11 @@
             <to-view-id>ownpage.xhtml</to-view-id>
         </navigation-case>	
     </navigation-rule>	
-    <navigation-rule>   
-        <from-view-id>/users/List.xhtml</from-view-id>    
-        <from-view-id>ownpage.xhtml</from-view-id>    
+    <navigation-rule>          
         <navigation-case>
             <from-action>#{loginBean.logout}</from-action>
             <from-outcome>login</from-outcome>
             <to-view-id>login.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
-</faces-config>
+    </faces-config>

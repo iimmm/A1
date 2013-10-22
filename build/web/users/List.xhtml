@@ -85,10 +85,8 @@
                         </h:dataTable>
                     </h:panelGroup>
                     <br />
-                    <h:commandLink action="#{usersController.prepareCreate}" value="#{bundle.ListUsersCreateLink}"/>
-                    <br />
-                    <br />
-                    <h:link outcome="index" value="#{bundle.ListUsersIndexLink}"/>
+                    <h:commandButton action="#{usersController.prepareCreate}" value="#{bundle.ListUsersCreateLink}"/>
+                                    
                 </h:form>
             </h:panelGroup>
         </ui:define>

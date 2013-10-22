@@ -35,15 +35,10 @@
                             <f:convertDateTime pattern="MM/dd/yyyy" />
                         </h:inputText>
                     </h:panelGrid>
-                    <h:commandLink action="#{usersController.update}" value="#{bundle.EditUsersSaveLink}"/>
-                    <br />
-                    <br />
-                    <h:link outcome="View" value="#{bundle.EditUsersViewLink}"/>
-                    <br />
-                    <h:commandLink action="#{usersController.prepareList}" value="#{bundle.EditUsersShowAllLink}" immediate="true"/>
-                    <br />
-                    <br />
-                    <h:link outcome="index" value="#{bundle.EditUsersIndexLink}" />
+                    <h:panelGroup>
+                        <h:commandButton action="#{usersController.update}" value="#{bundle.EditUsersSaveLink}"/>
+                        <h:commandButton action="#{usersController.prepareList}" value="#{bundle.EditUsersShowAllLink}" immediate="true"/>
+                   </h:panelGroup>                
                 </h:form>
             </h:panelGroup>
         </ui:define>

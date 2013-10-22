@@ -34,13 +34,10 @@
                         </h:inputText>
                     </h:panelGrid>
                     <br />
-                    <h:commandLink action="#{usersController.create}" value="#{bundle.CreateUsersSaveLink}" />
-                    <br />
-                    <br />
-                    <h:commandLink action="#{usersController.prepareList}" value="#{bundle.CreateUsersShowAllLink}" immediate="true"/>
-                    <br />
-                    <br />
-                    <h:link outcome="index" value="#{bundle.CreateUsersIndexLink}"/>
+                    <h:panelGroup>
+                        <h:commandButton action="#{usersController.create}" value="#{bundle.CreateUsersSaveLink}" />
+                        <h:commandButton action="#{usersController.prepareList}" value="#{bundle.CreateUsersShowAllLink}" immediate="true"/>
+                    </h:panelGroup>
                 </h:form>
             </h:panelGroup>
         </ui:define>
